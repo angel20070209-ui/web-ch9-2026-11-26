@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<title>ch9-2使用CSS製作多層級選單(2)</title>
+<meta charset="utf-8">
+<!-- 導入大眾熱門且質感極佳的 Google Noto Sans TC 思源黑體 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    /* [AI 增強 CSS 註解] 定義主選單與子選單底色，並以 color-mix 算出同背景加深 25% 框線色 */
+    --menu-bg: #4f46e5;
+    --menu-border: color-mix(in srgb, var(--menu-bg) 75%, #000000);
+
+    --submenu-bg: #4338ca;
+    --submenu-border: color-mix(in srgb, var(--submenu-bg) 75%, #000000);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    /* 質感大氣背景：採用輕柔的斜向多色雙漸層，不再單調 */
+    background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 50%, #e0f2fe 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 40px;
+    /* 大眾質感字體組合：優先載入思源黑體，次要搭配系統優良無襯線體 */
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none; 
+}
+
+.menu {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    /* [AI 增強 CSS 註解] 設定主選單能有 5% 圓角與 2px 同背景加深色系框線 */
+    border-radius: 5%;
+    border: 2px solid var(--menu-border);
+    background-color: var(--menu-bg);
+    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.25);
+}
+
+.menu > li { /*子選擇器，只有第一層*/
+    float: left;
+}
+
+.menu li {
+    position: relative;
+    padding: 0px;
+    min-width: 140px;
+}
+
+.menu ul {
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+    display: none; /*預設ul不顯示*/
+    background-color: var(--submenu-bg);
+    /* [AI 增強 CSS 註解] 設定子選單能有 5% 圓角 */
+    border-radius: 5%;
+    /* [AI 增強 CSS 註解] 設定子選單框線採 2px 的同背景加深色系 */
+    border: 2px solid var(--submenu-border);
+    /* [AI 增強 CSS 註解] 子選單在其對應上層選單之右下方各 5% 處開始顯示 */
+    transform: translate(5%, 5%);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+
+.menu ul li > ul { /*定義上一層ul li與下一層ul的距離*/
+    z-index: 20;
+    /* [AI 增強 CSS 註解] 巢狀子選單從上層右側展開，並往右下方各偏移 5% 顯示 */
+    top: 0;
+    left: 100%;
+    transform: translate(5%, 5%);
+    border-radius: 5%;
+    border: 2px solid var(--submenu-border);
+}
+
+.menu a {
+    display: block;
+    padding: 12px 18px;
+    text-decoration: none;
+    background-image: url(img/btn1.png);
+    background-size: cover;
+    color: #ffffff;
+    text-align: center;
+    transition: all 0.25s ease;
+    border-radius: 5%; /* 連同按鈕項目套用 5% 圓角以提升平滑度 */
+}
+
+.menu a:hover {
+    background-image: url(img/btn2.png);
+    background-size: cover;
+    color: #fbbf24; /* 懸浮時換成亮眼的琥珀金字體 */
+}
+
+.menu li:hover > ul {
+    display: block; /*移動到li，li下一層的ul才顯示*/
+}
+</style>
+</head>
+<body>
+<ul class="menu">
+    <li><a href="#">台北景點</a>
+        <ul>
+            <li><a href="#">台北101</a></li>
+            <li><a href="#">迪化街</a></li>
+            <li><a href="#">士林夜市</a></li>
+        </ul>
+    </li>
+    <li><a href="#">澎湖景點</a>
+        <ul>
+            <li><a href="#">跨海大橋</a></li>
+            <li><a href="#">沙灘</a></li>
+            <li><a href="#">觀音亭</a></li>
+        </ul>
+    </li>
+    <li><a href="#">台南景點</a>
+        <ul>
+            <li><a href="#">赤崁樓</a></li>
+            <li><a href="#">台南孔廟</a></li>
+            <li><a href="#">台南小吃>></a>
+                <ul>
+                    <li><a href="#">八寶冰</a></li>
+                    <li><a href="#">蚵仔煎</a></li>
+                    <li><a href="#">米糕</a></li>
+                    <li><a href="#">牛肉湯</a></li>
+                    <li><a href="#">肉燥飯</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+</body>
+</html>
